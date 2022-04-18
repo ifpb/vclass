@@ -15,12 +15,16 @@ wget "https://github.com/prometheus/prometheus/releases/download/v2.34.0/$versio
 tar xvf  $version;
 
 cp prometheus-*/prometheus /usr/local/bin/;
-
 cp prometheus-*/promtool /usr/local/bin/;
 
-chown -R prometheus:prometheus /etc/prometheus/consoles;
+chown prometheus:prometheus /usr/local/bin/prometheus;
+chown prometheus:prometheus /usr /local/bin/promtool;
 
-chown -R prometheus:prometheus /etc/prometheus/consoles_libraries;
+cp -r prometheus-* /consoles/etc/prometheus;
+cp -r prometheus-* /console_libraries/etc/prometheus;
+ 
+chown -R prometheus:prometheus /etc/prometheus/consoles;
+chown -R prometheus:prometheus /etc/prometheus/console_libraries;
 
 mv prometheus-*/prometheus.yml /etc/prometheus/config-backup; 
 
