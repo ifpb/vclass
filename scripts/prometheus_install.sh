@@ -14,9 +14,9 @@ wget "https://github.com/prometheus/prometheus/releases/download/v2.34.0/$versio
 
 tar xvf  $version;
 
-cp $version/prometheus /usr/local/bin/;
+cp prometheus-*/prometheus /usr/local/bin/;
 
-cp $version/promtool /usr/local/bin/;
+cp prometheus-*/promtool /usr/local/bin/;
 
 chown -R prometheus:prometheus /etc/prometheus/consoles;
 
