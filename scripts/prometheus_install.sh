@@ -44,6 +44,8 @@ scrape_configs:
          - targets: ['localhost:9090'] 
 EOF;
 
+touch /etc/systemd/system/prometheus.service;
+
 tee -a /etc/systemd/system/prometheus.service << EOF 
 [Unit]
 Description=Prometheus
