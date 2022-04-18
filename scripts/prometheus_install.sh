@@ -29,8 +29,8 @@ chown -R prometheus:prometheus /etc/prometheus/console_libraries;
 mv prometheus-*/prometheus.yml /etc/prometheus/config-backup; 
 
 touch /etc/prometheus/prometheus.yml;
-
-tee -a /etc/prometheus/prometheus.yml  << EOF
+ 
+cat << EOF > /etc/prometheus/prometheus.yml 
 
 global:
   scrape_interval:     10s
@@ -46,7 +46,7 @@ EOF;
 
 touch /etc/systemd/system/prometheus.service;
 
-tee -a /etc/systemd/system/prometheus.service << EOF 
+cat << EOF > /etc/systemd/system/prometheus.service 
 [Unit]
 Description=Prometheus
 Wants=network-online.target
