@@ -22,7 +22,7 @@ chown -R prometheus:prometheus /etc/prometheus/consoles;
 
 chown -R prometheus:prometheus /etc/prometheus/consoles_libraries;
 
-mv /etc/prometheus/prometheus.yml /etc/prometheus/config-backup; 
+mv prometheus-*/prometheus.yml /etc/prometheus/config-backup; 
 
 touch /etc/prometheus/prometheus.yml;
 
