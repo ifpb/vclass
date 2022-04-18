@@ -37,8 +37,7 @@ scrape_configs:
   - job_name: 'prometheus'
     scrape_interval: 5s
     static_configs:
-         - targets: ['localhost:9090']
-EOF;
+         - targets: ['localhost:9090'] EOF;
 
 tee -a /etc/systemd/system/prometheus.service << EOF 
 [Unit]
@@ -57,8 +56,8 @@ ExecStart=/usr/local/bin/prometheus \
     --web.console.libraries=/etc/prometheus/console_libraries
 
 [Install]
-WantedBy=multi-user.target
-EOF;
+WantedBy=multi-user.target EOF;
+
 systemctl daemon-reload;
 systemctl start prometheus;
 systemctl enable prometheus;
