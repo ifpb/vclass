@@ -18,7 +18,7 @@ cp prometheus-*/prometheus /usr/local/bin/;
 cp prometheus-*/promtool /usr/local/bin/;
 
 chown prometheus:prometheus /usr/local/bin/prometheus;
-chown prometheus:prometheus /usr /local/bin/promtool;
+chown prometheus:prometheus /usr/local/bin/promtool;
 
 cp -r prometheus-* /consoles/etc/prometheus;
 cp -r prometheus-* /console_libraries/etc/prometheus;
