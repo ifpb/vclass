@@ -42,7 +42,7 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
          - targets: ['localhost:9090'] 
-EOF;
+EOF
 
 touch /etc/systemd/system/prometheus.service;
 
@@ -64,7 +64,7 @@ ExecStart=/usr/local/bin/prometheus \
 
 [Install]
 WantedBy=multi-user.target 
-EOF;
+EOF
 
 systemctl daemon-reload;
 systemctl start prometheus;
