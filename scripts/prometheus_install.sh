@@ -25,6 +25,8 @@ cp -r prometheus-*/console_libraries /etc/prometheus;
  
 chown -R prometheus:prometheus /etc/prometheus/consoles;
 chown -R prometheus:prometheus /etc/prometheus/console_libraries;
+chown -R prometheus:prometheus /var/lib/prometheus;
+
 
 mv prometheus-*/prometheus.yml /etc/prometheus/config-backup; 
 
