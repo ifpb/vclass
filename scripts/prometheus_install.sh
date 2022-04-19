@@ -1,5 +1,5 @@
 #!/bin/bash 
-
+version1="v2.34.0";
 version="prometheus-2.34.0.linux-amd64.tar.gz";
 
 useradd --no-create-home --shell /bin/false prometheus;
@@ -10,7 +10,7 @@ mkdir /etc/prometheus;
 
 mkdir /var/lib/prometheus;
 
-wget "https://github.com/prometheus/prometheus/releases/download/v2.34.0/$version";
+wget "https://github.com/prometheus/prometheus/releases/download/$version1/$version";
 
 tar xvf  $version;
 
