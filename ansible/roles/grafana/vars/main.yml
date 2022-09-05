@@ -1,0 +1,8 @@
+---
+# vars file for grafana
+GPG: "https://packages.grafana.com/gpg.key"
+DEST: "/usr/share/keyrings/grafana.key"
+REPOSITORIO: "deb [signed-by=/usr/share/keyrings/grafana.key] https://packages.grafana.com/oss/deb stable main"
+PACOTES:
+  - grafana
+SERVICO: "grafana-server"

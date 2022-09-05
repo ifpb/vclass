@@ -1,0 +1,30 @@
+---
+- name: CONFIGURAÇÕES DE REPOSITÓRIO
+  block:
+    - name: ADICIONA A CHAVE GPG DO REPOSITÓRIO
+      ansible.builtin.get_url:
+        url: "{{ GPG }}" 
+        dest: "{{ DEST }}"
+
+    - name: CONFIGURA O REPOSITÓRIO
+      ansible.builtin.apt_repository:
+        repo: "{{ REPOSITORIO }}"
+        state: present
+
+- name: ATUALIZA A LISTA DE PACOTES
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: INSTALANDO OS PACOTES
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  loop: "{{ PACOTES }}"
+
+- name: INICIA E HABILITA O SERVIÇO NA INICIALIZAÇÃO DO SISTEMA
+  ansible.builtin.systemd:
+    name: "{{ SERVICO }}"
+    state: started
+    enabled: yes
+    daemon_reload: yes

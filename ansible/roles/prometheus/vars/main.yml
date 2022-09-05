@@ -1,0 +1,21 @@
+---
+VERSAO: "2.34.0"
+PACOTE: "prometheus-{{ VERSAO }}.linux-amd64"
+LICENSE: "prometheus-{{ VERSAO }}.linux-amd64/LICENSE"
+NOTICE: "prometheus-{{ VERSAO }}.linux-amd64/NOTICE"
+URL: "https://github.com/prometheus/prometheus/releases/download/v{{ VERSAO }}/{{ PACOTE }}.tar.gz"
+SERVICO: "prometheus"
+DESTINO: "/etc/prometheus/"
+USUARIO: "prometheus"
+GRUPO: "prometheus"
+PERMISSAO: "0775"
+SHELL: "/bin/false"
+DIRETORIOS:
+  - "/etc/prometheus"
+  - "/var/lib/prometheus"
+BINARIOS: 
+  - "/etc/prometheus/prometheus"
+  - "/etc/prometheus/promtool"
+DEST_BINARIOS: "/usr/local/bin/"
+PROMETHEUS_SERVICO: "prometheus.service"
+PROMETHEUS_YML: "prometheus.yml"

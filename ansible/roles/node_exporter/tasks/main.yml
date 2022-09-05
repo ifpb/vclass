@@ -1,0 +1,38 @@
+---
+- name: CRIA O GRUPO {{ GRUPO }}
+  ansible.builtin.group:
+    name: "{{ GRUPO }}" 
+    state: present
+
+- name: CRIA O USUARIO {{ USUARIO }}
+  ansible.builtin.user:
+    name: "{{ USUARIO }}"
+    group: "{{ GRUPO }}"
+    create_home: no
+    shell: "{{ SHELL }}"
+    state: present
+
+- name: DOWNLOAD DO ARQUIVO
+  ansible.builtin.unarchive:
+    src: "{{ URL }}" 
+    dest: "{{ DESTINO }}"
+    exclude:
+      - "{{ LICENSE }}"
+      - "{{ NOTICE }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    owner: "{{ USUARIO }}"
+    group: "{{ GRUPO }}"
+    mode: "{{ PERMISSAO }}"
+
+- name: COPIA O ARQUIVO
+  ansible.builtin.copy:
+    src: files/node_exporter.service
+    dest: /etc/systemd/system/node_exporter.service 
+
+- name: INICIA E HABILITA O SERVIÇO NA INICIALIZAÇÃO DO SISTEMA
+  ansible.builtin.systemd:
+    name: "{{ SERVICO }}"
+    state: started
+    enabled: yes
+    daemon_reload: yes

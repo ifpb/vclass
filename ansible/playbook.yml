@@ -1,0 +1,14 @@
+---
+- name: CONFIGURAÇÃO DO AMBIENTE VCLASS
+  hosts: all 
+  remote_user: administrador
+  become_method: su
+  become_user: root
+
+  roles:
+    - role: node_exporter
+      when: inventory_hostname in groups['all'] 
+    - role: grafana
+      when: inventory_hostname in groups['SERVIDORES'] 
+    - role: prometheus
+      when: inventory_hostname in groups['SERVIDORES'] 

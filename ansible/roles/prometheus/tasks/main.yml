@@ -1,0 +1,67 @@
+---
+- name: CRIA O GRUPO {{ GRUPO }}
+  ansible.builtin.group:
+    name: "{{ GRUPO }}" 
+    state: present
+
+- name: CRIA O USUARIO {{ USUARIO }}
+  ansible.builtin.user:
+    name: "{{ USUARIO }}"
+    group: "{{ GRUPO }}"
+    create_home: no
+    shell: "{{ SHELL }}"
+    state: present
+
+- name: CRIA OS DIRETORIOS
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ USUARIO }}"
+    group: "{{ GRUPO }}"
+  with_items:
+    - "{{ DIRETORIOS }}"
+
+- name: DOWNLOAD DO ARQUIVO
+  ansible.builtin.unarchive:
+    src: "{{ URL }}" 
+    dest: "{{ DESTINO }}"
+    exclude:
+      - "{{ LICENSE }}"
+      - "{{ NOTICE }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    owner: "{{ USUARIO }}"
+    group: "{{ GRUPO }}"
+    mode: "{{ PERMISSAO }}"
+
+- name: COPIA OS ARQUIVOS 
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ DEST_BINARIOS }}"
+    remote_src: yes
+    owner: "{{ USUARIO }}"
+    group: "{{ GRUPO }}"
+    mode: "{{ PERMISSAO }}"
+  with_items:
+    - "{{ BINARIOS }}"
+    
+- name: CONFIGURA O SYSTEMD PARA {{ PROMETHEUS_SERVICO }}
+  ansible.builtin.copy:
+    src: "files/{{ PROMETHEUS_SERVICO }}"
+    dest: "/etc/systemd/system/{{ PROMETHEUS_SERVICO }}"
+
+- name: COPIA O ARQUIVO DE CONFIGURAÇÃO {{ PROMETHEUS_YML }}
+  ansible.builtin.copy:
+    src: "files/{{ PROMETHEUS_YML }}"
+    dest: "{{ DESTINO }}"
+    owner: "{{ USUARIO }}"
+    group: "{{ GRUPO }}"
+    mode: "{{ PERMISSAO }}"
+
+- name: INICIA E HABILITA O SERVIÇO NA INICIALIZAÇÃO DO SISTEMA
+  ansible.builtin.systemd:
+    name: "{{ SERVICO }}"
+    state: started
+    enabled: yes
+    daemon_reload: yes
