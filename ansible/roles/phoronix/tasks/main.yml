@@ -1,2 +1,33 @@
 ---
-# tasks file for phoronix
+- name: INSTALAÇÃO DAS DEPENDÊNCIAS
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - "{{ PACOTES }}"
+
+- name: DOWNLOAD DO ARQUIVO 
+  ansible.builtin.unarchive:
+    src: "{{ URL }}" 
+    dest: "{{ DESTINO }}"
+    remote_src: yes
+
+- name: INSTALAÇÃO DO PHORONIX TEST SUITE
+  ansible.builtin.command: 
+    cmd: "{{ COMANDO }}"
+  args:
+    chdir: "{{ DIRETORIO }}"
+
+- name: INSTALAÇÃO DO IOZONE
+  ansible.builtin.command: 
+    cmd: "{{ IOZONE }}"
+
+- name: INSTALAÇÃO DO T-TEST1 
+  ansible.builtin.command:
+    cmd: "{{ TTEST1 }}"
+
+- name: INSTALAÇÃO DO BLENDER
+  ansible.builtin.command:
+    cmd: "{{ BLENDER }}"
+

@@ -12,3 +12,5 @@
       when: inventory_hostname in groups['SERVIDORES'] 
     - role: prometheus
       when: inventory_hostname in groups['SERVIDORES'] 
+    - role: phoronix
+      when: inventory_hostname in groups['HOSTS'] 

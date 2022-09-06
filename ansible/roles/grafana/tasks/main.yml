@@ -11,9 +11,9 @@
         repo: "{{ REPOSITORIO }}"
         state: present
 
-- name: ATUALIZA A LISTA DE PACOTES
-  ansible.builtin.apt:
-    update_cache: yes
+        #- name: ATUALIZA A LISTA DE PACOTES
+        #  ansible.builtin.apt:
+        #    update_cache: yes
 
 - name: INSTALANDO OS PACOTES
   ansible.builtin.apt:

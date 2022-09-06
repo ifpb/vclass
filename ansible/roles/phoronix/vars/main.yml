@@ -1,2 +1,15 @@
 ---
-# vars file for phoronix
+VERSAO: "10.8.3"
+NOME: "phoronix-test-suite"
+URL: "https://phoronix-test-suite.com/releases/{{ NOME }}-{{ VERSAO }}.tar.gz"
+DESTINO: "/tmp"
+DIRETORIO: "{{ DESTINO }}/{{ NOME }}"
+COMANDO: "./install-sh"
+IOZONE: "/usr/bin/phoronix-test-suite force-install benchmark iozone"
+TTEST1: "/usr/bin/phoronix-test-suite force-install t-test1"
+BLENDER: "/usr/bin/phoronix-test-suite force-install blender"
+PACOTES:
+  - php
+  - php-xml
+  - php-cli
+  - php-gd
