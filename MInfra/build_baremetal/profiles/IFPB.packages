@@ -1,0 +1,26 @@
+# KVM
+qemu-system
+qemu-utils
+libvirt-daemon
+libvirt-daemon-system
+virtinst
+virt-manager
+libguestfs-tools
+libosinfo-bin
+bridge-utils
+dnsmasq
+ovmf
+gir1.2-spiceclientgtk-3.0
+
+# Utils
+wget
+ufw
+vim
+ssh
+firefox-esr-l10n-pt-br
+ansible
+
+# Xwindow
+xorg
+openbox
+lightdm

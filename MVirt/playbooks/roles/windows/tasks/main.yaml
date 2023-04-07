@@ -1,0 +1,39 @@
+- name: Lista as VMs
+  community.libvirt.virt:
+    command: list_vms
+  register: vm_existe
+  changed_when: false
+
+- name: Cria a VM se não existir.
+  block:
+  - name: Download Imagem Base
+    get_url:
+      url: "{{ imagem_url }}"
+      dest: "{{ imagens_dir }}/{{ nome_imagem }}"
+  - name: Copia a imagem base para /VMS
+    copy:
+      src: "{{ imagens_dir }}/{{ nome_imagem }}"
+      dest: "{{ vms_dir }}/{{ nome_vm }}.qcow2"
+      force: false
+      remote_src: true 
+      mode: "0660"
+    register: results
+#  - name: Configura a VM
+#    command: |
+#      virt-customize -a {{ vms_dir }}/{{ nome_vm }}.qcow2 --hostname {{ nome_vm }} \
+#      --root-password password:{{ vm_root_pass }} 
+#    when: results is changed
+  - name: Define as configurações da VM
+    community.libvirt.virt:
+      command: define
+      xml: "{{ lookup('template', 'vm-template.xml.j2') }}"
+  when: "nome_vm not in vm_existe.list_vms"
+
+- name: Inicia a VM
+  community.libvirt.virt:
+    name: "{{ nome_vm }}"
+    state: running
+  register: vm_start_results
+  until: "vm_start_results is success"
+  retries: 15
+  delay: 2

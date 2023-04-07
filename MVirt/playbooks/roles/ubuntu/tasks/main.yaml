@@ -1,0 +1,33 @@
+- name: Lista as VMs
+  community.libvirt.virt:
+    command: list_vms
+  register: vm_existe
+  changed_when: false
+
+- name: Cria a VM se não existir.
+  block:
+  - name: Verifica se a VM existe
+    ansible.builtin.stat:
+      path: "{{ vms_dir }}/{{ vm }}"
+    register: imagem_existe
+
+  - name: Download da VM se não existir
+    get_url:
+      url: "{{ vm_url }}"
+      dest: "{{ vms_dir }}/{{ vm }}"
+    when: imagem_existe.stat.islnk is not defined
+
+  - name: Define as configurações da VM
+    community.libvirt.virt:
+      command: define
+      xml: "{{ lookup('template', 'vm-template.xml.j2') }}"
+  when: "nome_vm not in vm_existe.list_vms"
+
+- name: Inicia a VM
+  community.libvirt.virt:
+    name: "{{ nome_vm }}"
+    state: running
+  register: vm_start_results
+  until: "vm_start_results is success"
+  retries: 15
+  delay: 2

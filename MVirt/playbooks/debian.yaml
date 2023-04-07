@@ -1,0 +1,9 @@
+---
+- name: Instalação da VM 
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  roles:
+      
+    - debian

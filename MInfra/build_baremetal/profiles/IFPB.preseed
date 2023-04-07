@@ -1,0 +1,81 @@
+# SELECIONA O PROFILE
+###########################################
+d-i     simple-cdd/profiles     			multiselect     IFPB
+
+# REDES
+###########################################
+d-i 	netcfg/get_hostname 				string 		kvm
+d-i 	netcfg/get_domain       			string  	ifpb.lab
+
+# CONFIGURAÇÕES DE ESPELHO DE REDE
+###########################################
+d-i 	mirror/country 					string 		manual
+d-i 	mirror/http/hostname 				string 		ftp.br.debian.org
+d-i 	mirror/http/directory 				string 		/debian
+d-i 	mirror/http/proxy 				string
+
+# CONFIGURAÇÕES DE USUÁRIO E SENHA 
+###########################################
+d-i 	passwd/root-login 				boolean 	false
+d-i 	passwd/user-fullname 				string 		IFPB
+d-i 	passwd/username 				string 		administrador
+d-i 	passwd/user-password-crypted 			password 	$6$fAhX8BHYJbsa2xAZ$wQe7DSKhZu66ImqDHGAERQ34WKf40Pr4qQGbF3U2MGa5bBd0rVsdrye65wscAGgYsVYJEUQLHAEl47PJWY5s40 
+d-i 	passwd/user-default-groups 			string		sudo libvirt
+
+# CONFIGURAÇÃO DO NTP
+###########################################
+d-i     clock-setup/ntp 				boolean 	true
+d-i     clock-setup/ntp-server  			string  	a.st1.ntp.br
+
+
+# CONFIGURAÇÃO DO TIMEZONE
+###########################################
+d-i 	clock-setup/utc 				boolean 	true
+d-i 	time/zone 					select 		America/Recife
+
+# PARTICIONAMENTO DE DISCO
+###########################################
+d-i 	partman-partitioning/confirm_write_new_label 	boolean 	true
+d-i 	partman/choose_partition 			select 		finish
+d-i 	partman/confirm 				boolean 	true
+d-i 	partman/confirm_nooverwrite 			boolean 	true
+
+# CONFIGURAÇÕES DE SOFTWARES
+###########################################
+tasksel tasksel/first 					multiselect 	standard, ssh-server
+
+# SETA O CD COMO BASE DE INSTALAÇÃO 
+###########################################
+base-config apt-setup/uri_type  			select 		cdrom
+d-i 	apt-setup/cdrom/set-first  			boolean 	false
+base-config apt-setup/another 				boolean 	false
+
+# DESABILITA O CONCURSO DE PACOTE
+###########################################
+d-i     popularity-contest/participate  		boolean 	false
+
+# CONFIGURACAO DO GRUB
+###########################################
+d-i 	grub-installer/only_debian 			boolean 	true
+d-i 	grub-installer/bootdev  			string 		default
+
+# CONFIGURACAO DO XLUNCH
+###########################################
+d-i 	preseed/late_command 				string		tar -xf /cdrom/simple-cdd/xlunch.tar -C /target/tmp/; \
+									mv /target/tmp/xlunch/xlunch /target/usr/local/bin/; \
+									mv /target/tmp/xlunch /target/etc/; \
+									echo 'xlunch --config /etc/xlunch/default.conf -i /etc/xlunch/entries.dsv' >> /target/etc/xdg/openbox/autostart; \
+									echo 'background=/etc/xlunch/images/ifpb.png' >> /target/etc/lightdm/lightdm-gtk-greeter.conf; \
+									echo 'administrador ALL=(ALL) NOPASSWD: ALL' >> /target/etc/sudoers.d/administrador; \
+									mkdir -p /target/etc/libvirt/storage/autostart; \
+									cp /cdrom/simple-cdd/ISOS.xml /target/etc/libvirt/storage/; \
+									cp /cdrom/simple-cdd/VMS.xml /target/etc/libvirt/storage/; \
+									in-target mkdir /ISOS /VMS /IMAGENS; \
+									in-target chown administrador:administrador /ISOS /VMS /IMAGENS; \
+									in-target ln -s /etc/libvirt/storage/ISOS.xml /etc/libvirt/storage/autostart/; \
+									in-target ln -s /etc/libvirt/storage/VMS.xml /etc/libvirt/storage/autostart/; \
+									in-target ln -s /etc/libvirt/qemu/networks/default.xml /etc/libvirt/qemu/networks/autostart/; 
+									 
+# FINALIZA A INSTALAÇÃO
+###########################################
+d-i 	finish-install/reboot_in_progress 		note

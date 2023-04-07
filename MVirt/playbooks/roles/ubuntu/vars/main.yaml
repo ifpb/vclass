@@ -1,0 +1,11 @@
+---
+#nome_vm: ubuntu
+#vm_vcpus: 1
+#vm_ram_mb: 1024
+#vm_net: default
+#vm_root_pass: Mudar123
+#url: "http://10.10.100.1/imagens/"
+#vm: ubuntu.qcow2
+#vm_url: "{{ url }}{{ vm }}"
+#vms_dir: "/VMS"
+#cleanup_tmp: no
